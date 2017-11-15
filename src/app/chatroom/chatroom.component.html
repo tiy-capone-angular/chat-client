@@ -1,3 +1,9 @@
-<p>
-  chatroom works!
-</p>
+<div>
+  <input type="text" [(ngModel)]="words">
+  <button (click)="sendWords()">Send words</button>
+</div>
+<ul>
+  <li *ngFor="let message of messages">
+    {{ message.msg }}
+  </li>
+</ul>
