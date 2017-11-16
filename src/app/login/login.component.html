@@ -1,6 +1,10 @@
 <div class="card">
   <div>
-    <input type="text" [(ngModel)]="userName">
+    <input type="text"
+           appAutofocus
+           [(ngModel)]="userName"
+           [appAutofocusShouldSelect]="false"
+           (keydown.enter)="signIn()">
   </div>
   <div>
     <button (click)="signIn()">Sign in</button>

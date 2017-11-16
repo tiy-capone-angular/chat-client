@@ -1,5 +1,8 @@
 <div>
-  <input type="text" [(ngModel)]="words">
+  <input type="text"
+    appAutofocus
+    [(ngModel)]="words"
+    (keydown.enter)="sendWords()">
   <button (click)="sendWords()">Send words</button>
 </div>
 <ul>

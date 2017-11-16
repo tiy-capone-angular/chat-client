@@ -38,6 +38,16 @@ export class ChatService {
     });
   }
 
+  signOut(): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      this.socket.disconnect();
+      delete this.socket;
+      this.userLoggedIn.next();
+      observer.next();
+      observer.complete();
+    });
+  }
+
   signIn(userName: string): Observable<string> {
     return new Observable<string>(observer => {
       this.socket = io.connect('http://localhost:5000');

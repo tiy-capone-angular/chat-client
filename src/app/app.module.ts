@@ -12,6 +12,7 @@ import { ChatroomComponent } from './chatroom/chatroom.component';
 import { NavComponent } from './nav/nav.component';
 import { ChatService } from './chat/chat.service';
 import { SocketActiveGuard } from './socket-active.guard';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SocketActiveGuard } from './socket-active.guard';
     LoginComponent,
     AboutUsComponent,
     ChatroomComponent,
-    NavComponent
+    NavComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
