@@ -11,9 +11,12 @@ import { AutofocusDirective } from '../autofocus.directive';
 describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
+  let stub: ChatServiceStub;
 
   beforeEach(async(() => {
     delete AutofocusDirective.firstFound; // must be done to reset firstFound correctly
+
+    stub = new ChatServiceStub();
     TestBed.configureTestingModule({
       declarations: [
         NavComponent,
@@ -24,10 +27,10 @@ describe('NavComponent', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
-        { provide: ChatService, useValue: new ChatServiceStub() }
+        { provide: ChatService, useValue: stub }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,5 +41,57 @@ describe('NavComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show a login link when initially rendered', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.nativeElement;
+    const anchors = el.querySelectorAll('a');
+    const linkTexts = Array.from(anchors)
+      .map((x: HTMLElement) => x.innerHTML)
+    expect(linkTexts).toContain('Login');
+  });
+
+  describe('after login', () => {
+    it('should show a "chat room" link', () => {
+      // arrange
+      stub.userLoggedIn.next('this is an id');
+
+      // act
+      fixture.detectChanges();
+
+      // assert
+      const el = fixture.debugElement.nativeElement;
+      const anchors = el.querySelectorAll('a');
+      const linkTexts = Array.from(anchors)
+        .map((x: HTMLElement) => x.innerHTML)
+      expect(linkTexts).toContain('Chat room');
+    });
+
+    it('should show a "Logout" button', () => {
+      // arrange
+      stub.userLoggedIn.next('this is an id');
+
+      // act
+      fixture.detectChanges();
+
+      // assert
+      const el = fixture.debugElement.nativeElement;
+      const anchors = el.querySelectorAll('button');
+      const linkTexts = Array.from(anchors)
+        .map((x: HTMLElement) => x.innerHTML)
+      expect(linkTexts).toContain('Logout');
+    });
+
+    it('the isLoggedIn property is truthy', () => {
+      // arrange
+      stub.userLoggedIn.next('this is an id');
+
+      // act
+      fixture.detectChanges();
+
+      // assert
+      expect(component.isLoggedIn).toBeTruthy();
+    });
   });
 });
