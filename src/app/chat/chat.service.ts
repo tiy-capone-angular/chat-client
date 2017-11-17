@@ -3,11 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-
-export interface IMessage {
-  id: string,
-  msg: string
-}
+import { IMessage } from '../message';
 
 @Injectable()
 export class ChatService {
@@ -17,7 +13,8 @@ export class ChatService {
   private socket: SocketIOClient.Socket;
   private messagesHistorySubject: ReplaySubject<IMessage>;
 
-  constructor() {
+  constructor(
+  ) {
     this.userLoggedIn = new Subject<string>();
     this.messagesHistorySubject = new ReplaySubject<IMessage>(5);
   }
