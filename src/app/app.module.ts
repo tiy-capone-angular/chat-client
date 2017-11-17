@@ -13,7 +13,9 @@ import { NavComponent } from './nav/nav.component';
 import { ChatService } from './chat/chat.service';
 import { SocketActiveGuard } from './socket-active.guard';
 import { AutofocusDirective } from './autofocus.directive';
+import { StoreModule } from '@ngrx/store';
 
+import { messageReducer } from './reducers';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { AutofocusDirective } from './autofocus.directive';
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(APP_ROUTES)
+    RouterModule.forRoot(APP_ROUTES),
+    StoreModule.forRoot({ messages: messageReducer }, { initialState: { messages: [] } })
   ],
   providers: [
     ChatService,
