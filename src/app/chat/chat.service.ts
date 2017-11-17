@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 export interface IMessage {
   id: string,
@@ -14,9 +15,11 @@ export class ChatService {
   userLoggedIn: Subject<string>;
 
   private socket: SocketIOClient.Socket;
+  private messagesHistorySubject: ReplaySubject<IMessage>;
 
   constructor() {
     this.userLoggedIn = new Subject<string>();
+    this.messagesHistorySubject = new ReplaySubject<IMessage>(5);
   }
 
   get isConnected(): boolean {
@@ -28,14 +31,16 @@ export class ChatService {
   }
 
   get messages(): Observable<IMessage> {
-    return new Observable<IMessage>(observer => {
-      if (this.socket === undefined) {
-        return observer.error('This socket is not connected');
-      }
-      this.socket.on('chat message', message => {
-        observer.next(message as IMessage);
-      })
-    });
+    return this.messagesHistorySubject;
+
+    // return new Observable<IMessage>(observer => {
+    //   if (this.socket === undefined) {
+    //     return observer.error('This socket is not connected');
+    //   }
+    //   this.socket.on('chat message', message => {
+    //     observer.next(message as IMessage);
+    //   })
+    // });
   }
 
   signOut(): Observable<boolean> {
@@ -55,6 +60,9 @@ export class ChatService {
         this.socket.emit('user named', userName);
         observer.next(this.socket.id);
         this.userLoggedIn.next(this.socket.id);
+        this.socket.on('chat message', message => {
+          this.messagesHistorySubject.next(message);
+        });
       });
     });
   }
