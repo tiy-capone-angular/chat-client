@@ -4,6 +4,7 @@ import { IMessage } from '../message';
 import { IAppState } from '../app.state';
 import { Store } from '@ngrx/store';
 import { AckMessage } from '../actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-chatroom',
@@ -12,20 +13,17 @@ import { AckMessage } from '../actions';
 })
 export class ChatroomComponent implements OnInit {
 
-  messages: IMessage[];
+  messages$: Observable<IMessage[]>;
   words: string;
 
   constructor(
     private chatService: ChatService,
     private store: Store<IAppState>
   ) {
-    this.messages = [];
   }
 
   ngOnInit() {
-    this.store
-      .select('messages')
-      .subscribe(messages => this.messages = messages);
+    this.messages$ = this.store.select('messages');
   }
 
   sendWords() {

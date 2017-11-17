@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let message of messages; index as i"
+      [style.fontWeight]="message.ack || 'bold'"
+      (click)="ack.emit(i)">
+    {{ message.msg }}
+  </li>
+</ul>

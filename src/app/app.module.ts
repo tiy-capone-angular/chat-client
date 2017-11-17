@@ -16,6 +16,7 @@ import { AutofocusDirective } from './autofocus.directive';
 import { StoreModule } from '@ngrx/store';
 
 import { messageReducer } from './reducers';
+import { MessageListComponent } from './message-list/message-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { messageReducer } from './reducers';
     AboutUsComponent,
     ChatroomComponent,
     NavComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    MessageListComponent
   ],
   imports: [
     BrowserModule,

@@ -5,10 +5,6 @@
     (keydown.enter)="sendWords()">
   <button (click)="sendWords()">Send words</button>
 </div>
-<ul>
-  <li *ngFor="let message of messages; index as i"
-      [style.fontWeight]="message.ack || 'bold'"
-      (click)="ack(i)">
-    {{ message.msg }}
-  </li>
-</ul>
+<app-message-list
+  [messages]="messages$ | async"
+  (ack)="ack($event)"></app-message-list>
