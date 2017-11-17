@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import * as io from 'socket.io-client';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import * as io from 'socket.io-client';
+
 import { IMessage } from '../message';
 
 @Injectable()
@@ -30,6 +31,7 @@ export class ChatService {
   get messages(): Observable<IMessage> {
     return this.messagesHistorySubject;
 
+    // MOVED TO LOGIN
     // return new Observable<IMessage>(observer => {
     //   if (this.socket === undefined) {
     //     return observer.error('This socket is not connected');
