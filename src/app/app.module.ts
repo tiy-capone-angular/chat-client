@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { messageReducer } from './reducers';
 import { MessageListComponent } from './message-list/message-list.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MessageListComponent } from './message-list/message-list.component';
     ChatroomComponent,
     NavComponent,
     AutofocusDirective,
-    MessageListComponent
+    MessageListComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

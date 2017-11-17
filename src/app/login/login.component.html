@@ -1,12 +1,8 @@
-<div class="card">
-  <div>
-    <input type="text"
-           appAutofocus
-           [(ngModel)]="userName"
-           [appAutofocusShouldSelect]="false"
-           (keydown.enter)="signIn()">
-  </div>
-  <div>
+<ui-card>
+  <div class="actions">
     <button (click)="signIn()">Sign in</button>
   </div>
-</div>
+  <div>
+    <input type="text" appAutofocus [(ngModel)]="userName" [appAutofocusShouldSelect]="false" (keydown.enter)="signIn()">
+  </div>
+</ui-card>
