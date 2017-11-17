@@ -38,7 +38,6 @@ describe('LoginComponent', () => {
   });
 
   it('should create', () => {
-    console.log('login component should create');
     expect(component).toBeTruthy();
   });
 });

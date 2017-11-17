@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../chat/chat.service';
 import { IMessage } from '../message';
+import { IAppState } from '../app.state';
+import { Store } from '@ngrx/store';
+import { AckMessage } from '../actions';
 
 @Component({
   selector: 'app-chatroom',
@@ -13,23 +16,26 @@ export class ChatroomComponent implements OnInit {
   words: string;
 
   constructor(
-    private chatService: ChatService
+    private chatService: ChatService,
+    private store: Store<IAppState>
   ) {
     this.messages = [];
   }
 
   ngOnInit() {
-    this.chatService
-      .messages
-      .subscribe(
-        message => this.messages.push(message)
-      );
+    this.store
+      .select('messages')
+      .subscribe(messages => this.messages = messages);
   }
 
   sendWords() {
     this.chatService
       .sendMessage(this.words);
     this.words = '';
+  }
+
+  ack(index: number): void {
+    this.store.dispatch(new AckMessage(index));
   }
 
 }

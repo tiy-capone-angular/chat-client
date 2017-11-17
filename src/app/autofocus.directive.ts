@@ -4,10 +4,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 @Directive({
   selector: '[appAutofocus]'
 })
-export class AutofocusDirective implements OnInit, AfterViewInit, OnDestroy {
-  ngOnInit(): void {
-    console.log('autofocus should select:', this.appAutofocusShouldSelect);
-  }
+export class AutofocusDirective implements AfterViewInit, OnDestroy {
   static firstFound: ElementRef;
 
   @Input()
@@ -24,7 +21,6 @@ export class AutofocusDirective implements OnInit, AfterViewInit, OnDestroy {
     } else {
       console.error('You have too many [appAutofocus]es. Go delete some.');
     }
-    console.log('autofocus created');
   }
 
   ngAfterViewInit(): void {
@@ -40,7 +36,6 @@ export class AutofocusDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('autofocus destroyed');
     AutofocusDirective.firstFound = undefined;
   }
 

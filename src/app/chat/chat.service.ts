@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import * as io from 'socket.io-client';
 
 import { IMessage } from '../message';
+import { IAppState } from '../app.state';
+import { AddMessage } from '../actions';
 
 @Injectable()
 export class ChatService {
@@ -12,12 +15,11 @@ export class ChatService {
   userLoggedIn: Subject<string>;
 
   private socket: SocketIOClient.Socket;
-  private messagesHistorySubject: ReplaySubject<IMessage>;
 
   constructor(
+    private store: Store<IAppState>
   ) {
     this.userLoggedIn = new Subject<string>();
-    this.messagesHistorySubject = new ReplaySubject<IMessage>(5);
   }
 
   get isConnected(): boolean {
@@ -28,8 +30,10 @@ export class ChatService {
     this.socket.emit('chat message', message);
   }
 
-  get messages(): Observable<IMessage> {
-    return this.messagesHistorySubject;
+  // THIS IS NO LONGER NEEDED BECAUSE I AM USING
+  // A STORE
+  // get messages(): Observable<IMessage> {
+  //   return this.messagesHistorySubject;
 
     // MOVED TO LOGIN
     // return new Observable<IMessage>(observer => {
@@ -40,7 +44,7 @@ export class ChatService {
     //     observer.next(message as IMessage);
     //   })
     // });
-  }
+  // }
 
   signOut(): Observable<boolean> {
     return new Observable<boolean>(observer => {
@@ -60,7 +64,7 @@ export class ChatService {
         observer.next(this.socket.id);
         this.userLoggedIn.next(this.socket.id);
         this.socket.on('chat message', message => {
-          this.messagesHistorySubject.next(message);
+          this.store.dispatch(new AddMessage(message));
         });
       });
     });

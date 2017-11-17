@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         id => {
           this.router.navigate(['chatroom']);
-          console.log(id);
         },
         e => console.error(e)
       )

@@ -1,4 +1,5 @@
 export interface IMessage {
-  id: string,
-  msg: string
+  id: string;
+  msg: string;
+  ack: boolean;
 }
